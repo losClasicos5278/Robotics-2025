@@ -9,6 +9,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
+import java.security.PrivateKey;
+
+import edu.wpi.first.wpilibj.DigitalInput;
+
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
  * the TimedRobot documentation. If you change the name of this class or the package after creating
@@ -19,6 +23,7 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private DigitalInput limitSwitch;
 
     private Command m_autonomousCommand;
 
@@ -81,11 +86,23 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    System.out.println("teleopInit");
+    limitSwitch = new DigitalInput (0);
+  }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    boolean isPressed = limitSwitch.get();
+    //System.out.println("teleopPeriodic");
+    if (isPressed){
+      //System.out.println("Pressed");
+    }
+    else {
+      System.out.println("Not Pressed");
+    }
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override

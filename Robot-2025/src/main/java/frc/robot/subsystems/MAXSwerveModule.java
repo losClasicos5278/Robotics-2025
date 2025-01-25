@@ -39,6 +39,7 @@ public class MAXSwerveModule {
    * Encoder.
    */
   public MAXSwerveModule(int drivingCANId, int turningCANId, double chassisAngularOffset) {
+    System.out.println("MAXSwerveModule");
     m_drivingSpark = new SparkMax(drivingCANId, MotorType.kBrushless);
     m_turningSpark = new SparkMax(turningCANId, MotorType.kBrushless);
 
@@ -67,6 +68,7 @@ public class MAXSwerveModule {
    * @return The current state of the module.
    */
   public SwerveModuleState getState() {
+    System.out.println("SwerveModuleState");
     // Apply chassis angular offset to the encoder position to get the position
     // relative to the chassis.
     return new SwerveModuleState(m_drivingEncoder.getVelocity(),
@@ -79,6 +81,7 @@ public class MAXSwerveModule {
    * @return The current position of the module.
    */
   public SwerveModulePosition getPosition() {
+    System.out.println("SwerveModulePosition");
     // Apply chassis angular offset to the encoder position to get the position
     // relative to the chassis.
     return new SwerveModulePosition(
@@ -92,6 +95,7 @@ public class MAXSwerveModule {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState) {
+    System.out.println("setDesiredState");
     // Apply chassis angular offset to the desired state.
     SwerveModuleState correctedDesiredState = new SwerveModuleState();
     correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
@@ -109,6 +113,7 @@ public class MAXSwerveModule {
 
   /** Zeroes all the SwerveModule encoders. */
   public void resetEncoders() {
+    System.out.println("resetEncoders");
     m_drivingEncoder.setPosition(0);
   }
 }

@@ -44,7 +44,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-
+    System.out.println("Robot Container");
     // Configure default commands
     m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
@@ -69,10 +69,28 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(m_driverController, Button.kR1.value)
-        .whileTrue(new RunCommand(
+        .whileTrue(
+            //new LogCommand("Joystick Pressed")
+        new RunCommand(
             () -> m_robotDrive.setX(),
-            m_robotDrive));
+            m_robotDrive)
+            );
   }
+
+
+  public class LogCommand extends Command {
+    private String message = "";
+    public LogCommand(String message){
+        this.message = message;
+        System.out.println(message);
+    } 
+    @Override
+    public void execute() {
+        System.out.println(message);
+    }
+
+  }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
