@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.XboxController;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 
 import java.security.PrivateKey;
 
@@ -19,11 +22,15 @@ import edu.wpi.first.wpilibj.DigitalInput;
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
+
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private DigitalInput limitSwitch;
+  private XboxController controller;
+  private CANSparkMax armMotor;
+  private CANSparkMax intakeMotor;
 
     private Command m_autonomousCommand;
 
@@ -38,6 +45,9 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
+    controller = new XboxController(0);
+    armMotor = new CANSparkMax(1, MotorType.kBrushless);
+    intakeMotor = new CANSparkMax(2, MotorType.kBrushless);
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
@@ -94,19 +104,47 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    boolean isPressed = limitSwitch.get();
-    //System.out.println("teleopPeriodic");
-    if (isPressed){
-      //System.out.println("Pressed");
+    boolean buttonY = controller.getYbutton();
+    boolean buttonA = controller.getAbutton();
+    boolean buttonB = controller.getBbutton();
+
+    setArmMotorValue(buttonY, buttonA);
+    setIntakeMotorValue(buttonB);
+  }
+  
+  public void setArmMotorValue (boolean buttonY, boolean buttonA) {
+    if (buttonY) {
+      armMotor.set(1.0);
+    } else if (buttonA) {
+      armMotor.set(-1.0);
+    } else {
+      armMotor.set(0.0);
     }
-    else {
-      System.out.println("Not Pressed");
+  }  
+
+  public void setIntakeMotorValue(boolean buttonB) {
+    if (buttonB) {
+      intakeMotor.set(1.0);
+    } else {
+      intakeMotor.set(-1.0);
     }
   }
+  //   boolean isPressed = limitSwitch.get();
+  //   //System.out.println("teleopPeriodic");
+  //   if (isPressed){
+  //     //System.out.println("Pressed");
+  //   }
+  //   else {
+  //     System.out.println("Not Pressed");
+  //   }
+  // }
 
   /** This function is called once when the robot is disabled. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    armMotor.stopMotor();
+    intakeMotor.stopMotor();
+  }
 
   /** This function is called periodically when disabled. */
   @Override
