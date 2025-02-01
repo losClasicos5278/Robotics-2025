@@ -186,7 +186,10 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    m_robotContainer.armMotor.stopMotor();
+    m_robotContainer.intakeMotor.stopMotor();
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -226,7 +229,42 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    boolean buttonY = m_robotContainer.m_driverController.getYButton();
+    boolean buttonA = m_robotContainer.m_driverController.getAButton();
+    boolean buttonB = m_robotContainer.m_driverController.getBButton();
+    boolean buttonX = m_robotContainer.m_driverController.getXButton();
+
+
+    setArmMotorValue(buttonY, buttonA);
+    setIntakeMotorValue(buttonB, buttonX);
+  }
+
+  public void setArmMotorValue (boolean buttonY, boolean buttonA) {
+    if (buttonY) {
+      m_robotContainer.armMotor.set(1.0);
+      System.out.println("Arm Motor set to 1.0");
+    } else if (buttonA) {
+      m_robotContainer.armMotor.set(-1.0);
+      System.out.println("Arm Motor set to -1.0");
+    } else {
+      m_robotContainer.armMotor.set(0.0);
+      System.out.println("Arm Motor set to 0.0");
+    }
+  }
+
+  public void setIntakeMotorValue(boolean buttonB, boolean buttonX) {
+    if(buttonX) {
+      m_robotContainer.intakeMotor.set(1.0);
+      System.out.println("Intake Motor set to 1.0");
+    } else if (buttonB) {
+      m_robotContainer.intakeMotor.set(-1.0);
+      System.out.println("Intake Motor set to -1.0");
+    } else {
+      m_robotContainer.intakeMotor.set(0.0);
+      System.out.println("Intake Motor set to 0.0");
+    }
+  }
 
   @Override
   public void testInit() {

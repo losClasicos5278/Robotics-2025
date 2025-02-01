@@ -25,6 +25,9 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
 
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -37,6 +40,9 @@ public class RobotContainer {
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  //TODO: set ids
+  SparkMax armMotor = new SparkMax(20, MotorType.kBrushless);
+  SparkMax intakeMotor = new SparkMax(21, MotorType.kBrushless);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
