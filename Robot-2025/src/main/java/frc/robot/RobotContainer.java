@@ -15,6 +15,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
+import frc.robot.Constants.AccessoryConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -41,10 +42,10 @@ public class RobotContainer {
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   //TODO: set ids
-  SparkMax armMotor = new SparkMax(20, MotorType.kBrushless);
-  SparkMax armMotor2 = new SparkMax(22, MotorType.kBrushless);
-  SparkMax intakeMotor = new SparkMax(21, MotorType.kBrushless);
-  SparkMax intakeMotor2 = new SparkMax(23, MotorType.kBrushless);
+  SparkMax armMotor = new SparkMax(AccessoryConstants.leftArmMotorCanId, MotorType.kBrushless);
+  SparkMax armMotor2 = new SparkMax(AccessoryConstants.rightArmMotorCanId, MotorType.kBrushless);
+  SparkMax intakeMotor = new SparkMax(AccessoryConstants.leftIntakeMotorCanId, MotorType.kBrushless);
+  SparkMax intakeMotor2 = new SparkMax(AccessoryConstants.rightIntakeMotorCanId, MotorType.kBrushless);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
