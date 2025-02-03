@@ -188,7 +188,9 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     m_robotContainer.armMotor.stopMotor();
+    m_robotContainer.armMotor2.stopMotor();
     m_robotContainer.intakeMotor.stopMotor();
+    m_robotContainer.intakeMotor2.stopMotor();
   }
 
   @Override
@@ -236,33 +238,39 @@ public class Robot extends TimedRobot {
     boolean buttonX = m_robotContainer.m_driverController.getXButton();
 
 
-    setArmMotorValue(buttonY, buttonA);
-    setIntakeMotorValue(buttonB, buttonX);
+    setArmMotorsValue(buttonY, buttonA);
+    setIntakeMotorsValue(buttonB, buttonX);
   }
 
-  public void setArmMotorValue (boolean buttonY, boolean buttonA) {
+  public void setArmMotorsValue (boolean buttonY, boolean buttonA) {
     if (buttonY) {
       m_robotContainer.armMotor.set(1.0);
-      System.out.println("Arm Motor set to 1.0");
+      m_robotContainer.armMotor2.set(1.0);
+      System.out.println("Arm Motors set to 1.0");
     } else if (buttonA) {
       m_robotContainer.armMotor.set(-1.0);
-      System.out.println("Arm Motor set to -1.0");
+      m_robotContainer.armMotor2.set(-1.0);
+      System.out.println("Arm Motors set to -1.0");
     } else {
       m_robotContainer.armMotor.set(0.0);
-      System.out.println("Arm Motor set to 0.0");
+      m_robotContainer.armMotor2.set(0.0);
+      System.out.println("Arm Motors set to 0.0");
     }
   }
 
-  public void setIntakeMotorValue(boolean buttonB, boolean buttonX) {
+  public void setIntakeMotorsValue(boolean buttonB, boolean buttonX) {
     if(buttonX) {
       m_robotContainer.intakeMotor.set(1.0);
-      System.out.println("Intake Motor set to 1.0");
+      m_robotContainer.intakeMotor2.set(1.0);
+      System.out.println("Intake Motors set to 1.0");
     } else if (buttonB) {
       m_robotContainer.intakeMotor.set(-1.0);
-      System.out.println("Intake Motor set to -1.0");
+      m_robotContainer.intakeMotor2.set(-1.0);
+      System.out.println("Intake Motors set to -1.0");
     } else {
       m_robotContainer.intakeMotor.set(0.0);
-      System.out.println("Intake Motor set to 0.0");
+      m_robotContainer.intakeMotor2.set(0.0);
+      System.out.println("Intake Motors set to 0.0");
     }
   }
 

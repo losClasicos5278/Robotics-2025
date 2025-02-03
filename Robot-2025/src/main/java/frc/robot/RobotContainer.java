@@ -42,7 +42,9 @@ public class RobotContainer {
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   //TODO: set ids
   SparkMax armMotor = new SparkMax(20, MotorType.kBrushless);
+  SparkMax armMotor2 = new SparkMax(22, MotorType.kBrushless);
   SparkMax intakeMotor = new SparkMax(21, MotorType.kBrushless);
+  SparkMax intakeMotor2 = new SparkMax(23, MotorType.kBrushless);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
