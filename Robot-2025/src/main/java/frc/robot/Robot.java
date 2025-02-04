@@ -242,12 +242,12 @@ public class Robot extends TimedRobot {
     setIntakeMotorsValue(buttonB, buttonX);
   }
 
-  public void setArmMotorsValue (boolean buttonY, boolean buttonA) {
-    if (buttonY) {
+  public void setArmMotorsValue (boolean isUpButtonPressed, boolean isDownButtonPressed) {
+    if (isUpButtonPressed) {
       m_robotContainer.armMotor.set(1.0);
       m_robotContainer.armMotor2.set(1.0);
       System.out.println("Arm Motors set to 1.0");
-    } else if (buttonA) {
+    } else if (isDownButtonPressed) {
       m_robotContainer.armMotor.set(-1.0);
       m_robotContainer.armMotor2.set(-1.0);
       System.out.println("Arm Motors set to -1.0");
@@ -258,12 +258,12 @@ public class Robot extends TimedRobot {
     }
   }
 
-  public void setIntakeMotorsValue(boolean buttonB, boolean buttonX) {
-    if(buttonX) {
+  public void setIntakeMotorsValue(boolean isOutakeButtonPressed, boolean isIntakeButtonPressed) {
+    if(isIntakeButtonPressed) {
       m_robotContainer.intakeMotor.set(1.0);
       m_robotContainer.intakeMotor2.set(1.0);
       System.out.println("Intake Motors set to 1.0");
-    } else if (buttonB) {
+    } else if (isOutakeButtonPressed) {
       m_robotContainer.intakeMotor.set(-1.0);
       m_robotContainer.intakeMotor2.set(-1.0);
       System.out.println("Intake Motors set to -1.0");
