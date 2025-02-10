@@ -28,8 +28,13 @@ link: <https://docs.wpilib.org/en/stable/docs/software/hardware-apis/sensors/sen
 
 link: <https://docs.wpilib.org/en/stable/docs/software/hardware-apis/sensors/ultrasonics-software.html#ultrasonics-software>
 
-### Other info
+### Other info for soft limit
 
 This may not really be helpful becuase this snippet is only setting the neo to 90 degrees, but since we have to deal with gears of varying size then it wouldnt actually move to 90 degrees and would need more math to properly move to correct angle.
 
 link: <https://www.chiefdelphi.com/t/set-neo-motor-to-turn-90-degrees-in-rev-hardware-client/432174/3>
+
+
+### Path Planner
+
+link: <https://pathplanner.dev/home.html>
