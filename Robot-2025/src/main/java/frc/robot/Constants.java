@@ -49,7 +49,7 @@ public final class Constants {
     public static final int kFrontLeftDrivingCanId = 7;
     public static final int kRearLeftDrivingCanId = 8;
     public static final int kFrontRightDrivingCanId = 5;
-    public static final int kRearRightDrivingCanId = 3;
+    public static final int kRearRightDrivingCanId = 12;
 
     public static final int kFrontLeftTurningCanId = 6;
     public static final int kRearLeftTurningCanId = 9;
@@ -62,7 +62,7 @@ public final class Constants {
   public static final class AccessoryConstants {
     public static final int leftArmMotorCanId = 11;
     public static final int rightArmMotorCanId = 10;
-    public static final int leftIntakeMotorCanId = 12;
+    public static final int leftIntakeMotorCanId = 3;
     public static final int rightIntakeMotorCanId = 13;
   }
 
