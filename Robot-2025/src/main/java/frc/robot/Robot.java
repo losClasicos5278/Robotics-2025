@@ -244,12 +244,12 @@ public class Robot extends TimedRobot {
 
   public void setArmMotorsValue (boolean isUpButtonPressed, boolean isDownButtonPressed) {
     if (isUpButtonPressed) {
-      m_robotContainer.armMotor.set(1.0);
-      m_robotContainer.armMotor2.set(1.0);
+      m_robotContainer.armMotor.set(0.6);
+      m_robotContainer.armMotor2.set(-0.6);
       System.out.println("Arm Motors set to 1.0");
     } else if (isDownButtonPressed) {
-      m_robotContainer.armMotor.set(-1.0);
-      m_robotContainer.armMotor2.set(-1.0);
+      m_robotContainer.armMotor.set(-0.6);
+      m_robotContainer.armMotor2.set(0.6);
       System.out.println("Arm Motors set to -1.0");
     } else {
       m_robotContainer.armMotor.set(0.0);

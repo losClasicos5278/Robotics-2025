@@ -61,9 +61,9 @@ public final class Constants {
 
   public static final class AccessoryConstants {
     public static final int leftArmMotorCanId = 11;
-    public static final int rightArmMotorCanId = 21;
-    public static final int leftIntakeMotorCanId = 69;
-    public static final int rightIntakeMotorCanId = 96;
+    public static final int rightArmMotorCanId = 10;
+    public static final int leftIntakeMotorCanId = 12;
+    public static final int rightIntakeMotorCanId = 13;
   }
 
   public static final class ModuleConstants {
