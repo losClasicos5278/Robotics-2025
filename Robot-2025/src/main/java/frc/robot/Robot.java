@@ -154,7 +154,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
+  private Encoder encoder;    // Digital encoder object
+  private double encoderPosition; // Position in encoder ticks
   private RobotContainer m_robotContainer;
 
   /**
@@ -226,7 +227,14 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+
+    // Get encoder velocity (in ticks per second)
+    encoderVelocity = encoder.getRate();
+    // Log the encoder position and velocity
+    System.out.println("Encoder Position: " + encoderPosition);
+  }
 
   @Override
   public void testInit() {
