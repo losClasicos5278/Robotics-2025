@@ -44,8 +44,8 @@ public class RobotContainer {
   //TODO: set ids
   SparkMax armMotor = new SparkMax(AccessoryConstants.leftArmMotorCanId, MotorType.kBrushless);
   SparkMax armMotor2 = new SparkMax(AccessoryConstants.rightArmMotorCanId, MotorType.kBrushless);
-  SparkMax intakeMotor = new SparkMax(AccessoryConstants.leftIntakeMotorCanId, MotorType.kBrushless);
-  SparkMax intakeMotor2 = new SparkMax(AccessoryConstants.rightIntakeMotorCanId, MotorType.kBrushless);
+  SparkMax intakeMotor = new SparkMax(AccessoryConstants.leftIntakeMotorCanId, MotorType.kBrushed);
+  SparkMax intakeMotor2 = new SparkMax(AccessoryConstants.rightIntakeMotorCanId, MotorType.kBrushed);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -144,6 +144,6 @@ public class RobotContainer {
     m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
+    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, true));
   }
 }
