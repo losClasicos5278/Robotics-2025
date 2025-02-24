@@ -142,6 +142,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -154,7 +155,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
+  private Encoder encoder;    // Digital encoder object
+  private double encoderPosition; // Position in encoder ticks
   private RobotContainer m_robotContainer;
 
   /**
@@ -240,6 +242,11 @@ public class Robot extends TimedRobot {
 
     setArmMotorsValue(buttonY, buttonA);
     setIntakeMotorsValue(buttonB, buttonX);
+
+    // Get encoder velocity (in ticks per second)
+    encoderPosition = encoder.get();
+    // Log the encoder position and velocity
+    System.out.println("Encoder Position: " + encoderPosition);
   }
 
   public void setArmMotorsValue (boolean isUpButtonPressed, boolean isDownButtonPressed) {
@@ -272,6 +279,9 @@ public class Robot extends TimedRobot {
       m_robotContainer.intakeMotor2.set(0.0);
       System.out.println("Intake Motors set to 0.0");
     }
+
+    
+
   }
 
   @Override
