@@ -227,6 +227,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    m_robotContainer.climberConfig();
   }
 
   /** This function is called periodically during operator control. */
@@ -236,21 +238,24 @@ public class Robot extends TimedRobot {
     boolean buttonA = m_robotContainer.m_driverController.getAButton();
     boolean buttonB = m_robotContainer.m_driverController.getBButton();
     boolean buttonX = m_robotContainer.m_driverController.getXButton();
-
+    boolean buttonLeftBumper = m_robotContainer.m_driverController.getLeftBumperButton();
+    // m_robotContainer.climberConfig();
 
     setArmMotorsValue(buttonY, buttonA);
-    setIntakeMotorsValue(buttonB, buttonX);
+    setIntakeMotorsValue(buttonB, buttonX, buttonLeftBumper);
   }
+
+
 
   public void setArmMotorsValue (boolean isUpButtonPressed, boolean isDownButtonPressed) {
     if (isUpButtonPressed) {
-      m_robotContainer.armMotor.set(0.4);
-      m_robotContainer.armMotor2.set(-0.4);
-      System.out.println("Arm Motors set to 0.4");
+      m_robotContainer.armMotor.set(0.3);
+      m_robotContainer.armMotor2.set(-0.3);
+      System.out.println("Arm Motors set to 0.3");
     } else if (isDownButtonPressed) {
-      m_robotContainer.armMotor.set(-0.4);
-      m_robotContainer.armMotor2.set(0.4);
-      System.out.println("Arm Motors set to -0.4");
+      m_robotContainer.armMotor.set(-0.3);
+      m_robotContainer.armMotor2.set(0.3);
+      System.out.println("Arm Motors set to -0.3");
     } else {
       m_robotContainer.armMotor.set(0.0);
       m_robotContainer.armMotor2.set(0.0);
@@ -258,21 +263,30 @@ public class Robot extends TimedRobot {
     }
   }
 
-  public void setIntakeMotorsValue(boolean isOutakeButtonPressed, boolean isIntakeButtonPressed) {
-    if(isIntakeButtonPressed) {
-      m_robotContainer.intakeMotor.set(0.6);
-      m_robotContainer.intakeMotor2.set(-0.6);
-      System.out.println("Intake Motors set to 1.0");
+  public void setIntakeMotorsValue(boolean isOutakeButtonPressed, boolean isIntakeButtonPressed, boolean isLeftBumperPressed) {
+    if (isLeftBumperPressed) {
+        // Only activate one motor when the left bumper is held
+        m_robotContainer.intakeMotor.set(-0.6);
+        m_robotContainer.intakeMotor2.set(0.0);  // Set the second motor to 0 to avoid reversing direction
+        System.out.println("Intake Motor 1 set to -0.6, Intake Motor 2 set to 0.0");
+    } else if (isIntakeButtonPressed) {
+        // Both motors run for intake action
+        m_robotContainer.intakeMotor.set(0.6);
+        m_robotContainer.intakeMotor2.set(-0.6);
+        System.out.println("Intake Motors set to 0.6 (Intake)");
     } else if (isOutakeButtonPressed) {
-      m_robotContainer.intakeMotor.set(-0.6);
-      m_robotContainer.intakeMotor2.set(0.6);
-      System.out.println("Intake Motors set to -1.0");
+        // Both motors run for outtake action
+        m_robotContainer.intakeMotor.set(-0.6);
+        m_robotContainer.intakeMotor2.set(0.6);
+        System.out.println("Intake Motors set to -0.6 (Outake)");
     } else {
-      m_robotContainer.intakeMotor.set(0.0);
-      m_robotContainer.intakeMotor2.set(0.0);
-      System.out.println("Intake Motors set to 0.0");
+        // Motors are stopped if no button is pressed
+        m_robotContainer.intakeMotor.set(0.0);
+        m_robotContainer.intakeMotor2.set(0.0);
+        System.out.println("Intake Motors set to 0.0");
     }
-  }
+}
+
 
   @Override
   public void testInit() {

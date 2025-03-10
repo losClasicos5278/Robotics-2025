@@ -26,8 +26,13 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
 
+
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.servohub.ServoHub.ResetMode;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -41,11 +46,21 @@ public class RobotContainer {
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-  //TODO: set ids
-  SparkMax armMotor = new SparkMax(AccessoryConstants.leftArmMotorCanId, MotorType.kBrushless);
-  SparkMax armMotor2 = new SparkMax(AccessoryConstants.rightArmMotorCanId, MotorType.kBrushless);
+
+    SparkMax armMotor = new SparkMax(11, MotorType.kBrushed);
+    SparkMax armMotor2 = new SparkMax(10, MotorType.kBrushed);
   SparkMax intakeMotor = new SparkMax(AccessoryConstants.leftIntakeMotorCanId, MotorType.kBrushed);
   SparkMax intakeMotor2 = new SparkMax(AccessoryConstants.rightIntakeMotorCanId, MotorType.kBrushed);
+
+  public void climberConfig() {
+
+    SparkMaxConfig armMotorConfig1 = new SparkMaxConfig();
+    SparkMaxConfig armMotorConfig2 = new SparkMaxConfig();
+
+    armMotor.configure(armMotorConfig1.idleMode(IdleMode.kBrake), null, null);
+    armMotor2.configure(armMotorConfig2.idleMode(IdleMode.kBrake), null, null);
+      }
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
