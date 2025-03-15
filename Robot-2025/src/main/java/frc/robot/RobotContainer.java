@@ -60,7 +60,7 @@ public class RobotContainer {
 
     armMotor.configure(armMotorConfig1.idleMode(IdleMode.kBrake), ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     armMotor2.configure(armMotorConfig2.idleMode(IdleMode.kBrake), ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-      }
+}
 
 
   /**
@@ -160,5 +160,9 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, true));
+  }
+
+  public void resetGyro() {
+    m_robotDrive.zeroHeading();
   }
 }
