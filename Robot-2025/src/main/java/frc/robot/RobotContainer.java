@@ -30,9 +30,9 @@ import java.util.List;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.servohub.ServoHub.ResetMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -47,8 +47,9 @@ public class RobotContainer {
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
-    SparkMax armMotor = new SparkMax(11, MotorType.kBrushed);
-    SparkMax armMotor2 = new SparkMax(10, MotorType.kBrushed);
+  SparkMax armMotor = new SparkMax(AccessoryConstants.leftArmMotorCanId, MotorType.kBrushless);
+  SparkMax armMotor2 = new SparkMax(AccessoryConstants.rightArmMotorCanId, MotorType.kBrushless);
+
   SparkMax intakeMotor = new SparkMax(AccessoryConstants.leftIntakeMotorCanId, MotorType.kBrushed);
   SparkMax intakeMotor2 = new SparkMax(AccessoryConstants.rightIntakeMotorCanId, MotorType.kBrushed);
 
@@ -57,8 +58,8 @@ public class RobotContainer {
     SparkMaxConfig armMotorConfig1 = new SparkMaxConfig();
     SparkMaxConfig armMotorConfig2 = new SparkMaxConfig();
 
-    armMotor.configure(armMotorConfig1.idleMode(IdleMode.kBrake), null, null);
-    armMotor2.configure(armMotorConfig2.idleMode(IdleMode.kBrake), null, null);
+    armMotor.configure(armMotorConfig1.idleMode(IdleMode.kBrake), ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    armMotor2.configure(armMotorConfig2.idleMode(IdleMode.kBrake), ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
       }
 
 
@@ -68,7 +69,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    System.out.println("Robot Container");
     // Configure default commands
     m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
