@@ -29,10 +29,13 @@ import java.util.List;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.LimitSwitchConfig.Type;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkLimitSwitch;
+import com.revrobotics.RelativeEncoder;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -54,13 +57,32 @@ public class RobotContainer {
   SparkMax intakeMotor2 = new SparkMax(AccessoryConstants.rightIntakeMotorCanId, MotorType.kBrushed);
 
   public void climberConfig() {
-
     SparkMaxConfig armMotorConfig1 = new SparkMaxConfig();
     SparkMaxConfig armMotorConfig2 = new SparkMaxConfig();
 
     armMotor.configure(armMotorConfig1.idleMode(IdleMode.kBrake), ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     armMotor2.configure(armMotorConfig2.idleMode(IdleMode.kBrake), ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+
+    // setting limits here
+    SparkLimitSwitch armMotorLimit = armMotor.getForwardLimitSwitch();
+    SparkLimitSwitch armMotor2Limit = armMotor2.getForwardLimitSwitch();
+
+    RelativeEncoder encoder = armMotor.getEncoder();
+    RelativeEncoder encoder1 = armMotor2.getEncoder();
+
+    armMotorConfig1.limitSwitch.forwardLimitSwitchType(Type.kNormallyOpen).forwardLimitSwitchEnabled(true);
+    armMotorConfig2.limitSwitch.forwardLimitSwitchType(Type.kNormallyOpen).forwardLimitSwitchEnabled(true);
 }
+
+// public void climberLimits() {
+//     SparkLimitSwitch armMotorLimit = armMotor.getForwardLimitSwitch();
+//     SparkLimitSwitch armMotor2Limit = armMotor2.getForwardLimitSwitch();
+
+//     RelativeEncoder encoder = armMotor.getEncoder();
+//     RelativeEncoder encoder1 = armMotor2.getEncoder();
+
+
+// }
 
 
   /**
