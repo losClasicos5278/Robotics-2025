@@ -150,13 +150,23 @@ private void configureXButton() {
     double buttonRightTrigger = m_robotContainer.m_driverController.getRightTriggerAxis();
     // m_robotContainer.climberConfig();
 
-    setArmMotorsValue(buttonY, buttonA);
+    // setArmMotorsValue(buttonY, buttonA);
+    setArmMotorsValue(isUpPressed(), isDownPressed());
     setIntakeMotorsValue(buttonRightBumper, buttonLeftBumper, buttonRightTrigger);
-    //setArmMotorsValue(buttonY, buttonA);
-    setArmPosition();
+    // setArmPosition();
     setIntakeMotorsValue(buttonB, buttonX, buttonLeftBumper);
   }
 
+  private boolean isDownPressed(){
+
+    int pov = m_robotContainer.m_driverController.getPOV();
+    return pov == 180; 
+  }
+private boolean isUpPressed(){
+
+    int pov = m_robotContainer.m_driverController.getPOV();
+    return pov == 0; 
+  }
 
   private void setArmPosition() {
     if(realPosition > goalArmPosition) {
