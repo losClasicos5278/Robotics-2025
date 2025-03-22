@@ -100,9 +100,9 @@ public class RobotContainer {
 
 
     armMotorConfig2.softLimit
-    .forwardSoftLimit(10)
+    .forwardSoftLimit(50)
     .forwardSoftLimitEnabled(true)
-    .reverseSoftLimit(-10)
+    .reverseSoftLimit(-50)
     .reverseSoftLimitEnabled(true);
 
     armMotorConfig1.idleMode(IdleMode.kBrake);
