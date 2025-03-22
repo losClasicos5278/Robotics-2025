@@ -17,8 +17,8 @@ public class Robot extends TimedRobot {
   private double goalArmPosition = 0;
   private final double armHighPosition = 50;//TODO: find real position
   private final double armLowPosition = 10;//TODO: find real position
-
-
+  private final double armIntakePosition = 5;//TODO: find real position
+  private final double armoClimbPosition = 90;//TODO: find real position
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -29,6 +29,10 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_robotContainer.resetGyro();
+    configureAButton();
+    configureYButton();
+    configureXButton();
+    configureBButton();
   }
 
   /**
@@ -101,20 +105,28 @@ public class Robot extends TimedRobot {
         //new LogCommand ("Joystick Pressed")
       new InstantCommand(() -> goalArmPosition = armLowPosition));
         
-        })
-      );
   }
 
 private void configureYButton() {
     new JoystickButton(m_driverController, Button.kY.value)
       .whileTrue(
         //new LogCommand ("Joystick Pressed")
+      new InstantCommand(() -> goalArmPosition = armClimbPosition));
+      
+  }
+private void configureXButton() {
+    new JoystickButton(m_driverController, Button.kY.value)
+      .whileTrue(
+        //new LogCommand ("Joystick Pressed")
       new InstantCommand(() -> goalArmPosition = armHighPosition));
         
-        })
-      );
   }
-
+  private void configureBButton() {
+    new JoystickButton(m_driverController, Button.kY.value)
+      .whileTrue(
+        //new LogCommand ("Joystick Pressed")
+      new InstantCommand(() -> goalArmPosition = armIntakePosition));
+  }
 
   /** This function is called periodically during operator control. */
   @Override
@@ -126,7 +138,8 @@ private void configureYButton() {
     boolean buttonLeftBumper = m_robotContainer.m_driverController.getLeftBumperButton();
     // m_robotContainer.climberConfig();
 
-    setArmMotorsValue(buttonY, buttonA);
+    //setArmMotorsValue(buttonY, buttonA);
+    setArmPosition();
     setIntakeMotorsValue(buttonB, buttonX, buttonLeftBumper);
   }
 
