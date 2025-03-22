@@ -56,22 +56,64 @@ public class RobotContainer {
   SparkMax intakeMotor = new SparkMax(AccessoryConstants.leftIntakeMotorCanId, MotorType.kBrushed);
   SparkMax intakeMotor2 = new SparkMax(AccessoryConstants.rightIntakeMotorCanId, MotorType.kBrushed);
 
+  SparkLimitSwitch armMotorLimit = armMotor.getForwardLimitSwitch();
+  SparkLimitSwitch armMotor2Limit = armMotor2.getForwardLimitSwitch();
+
+  SparkLimitSwitch armMotorLimitReverse = armMotor.getReverseLimitSwitch();
+  SparkLimitSwitch armMotor2LimitReverse = armMotor2.getReverseLimitSwitch();
+
+  RelativeEncoder encoder = armMotor.getEncoder();
+  RelativeEncoder encoder2 = armMotor2.getEncoder();
+  
+
   public void climberConfig() {
     SparkMaxConfig armMotorConfig1 = new SparkMaxConfig();
     SparkMaxConfig armMotorConfig2 = new SparkMaxConfig();
 
-    armMotor.configure(armMotorConfig1.idleMode(IdleMode.kBrake), ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-    armMotor2.configure(armMotorConfig2.idleMode(IdleMode.kBrake), ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    // armMotor.configure(armMotorConfig1.idleMode(IdleMode.kBrake), ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    // armMotor2.configure(armMotorConfig2.idleMode(IdleMode.kBrake), ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
     // setting limits here
-    SparkLimitSwitch armMotorLimit = armMotor.getForwardLimitSwitch();
-    SparkLimitSwitch armMotor2Limit = armMotor2.getForwardLimitSwitch();
+    // SparkLimitSwitch armMotorLimit = armMotor.getForwardLimitSwitch();
+    // SparkLimitSwitch armMotor2Limit = armMotor2.getForwardLimitSwitch();
 
-    RelativeEncoder encoder = armMotor.getEncoder();
-    RelativeEncoder encoder1 = armMotor2.getEncoder();
+    // RelativeEncoder encoder = armMotor.getEncoder();
+    // RelativeEncoder encoder2 = armMotor2.getEncoder();
 
-    armMotorConfig1.limitSwitch.forwardLimitSwitchType(Type.kNormallyOpen).forwardLimitSwitchEnabled(true);
-    armMotorConfig2.limitSwitch.forwardLimitSwitchType(Type.kNormallyOpen).forwardLimitSwitchEnabled(true);
+    armMotorConfig1.limitSwitch
+    .forwardLimitSwitchType(Type.kNormallyOpen)
+    .forwardLimitSwitchEnabled(true)
+    .reverseLimitSwitchType(Type.kNormallyOpen)
+    .reverseLimitSwitchEnabled(true);
+
+    armMotorConfig1.softLimit
+    .forwardSoftLimit(10)
+    .forwardSoftLimitEnabled(true)
+    .reverseSoftLimit(-10)
+    .reverseSoftLimitEnabled(true);
+
+    armMotorConfig2.limitSwitch
+    .forwardLimitSwitchType(Type.kNormallyOpen)
+    .forwardLimitSwitchEnabled(true)
+    .reverseLimitSwitchType(Type.kNormallyOpen)
+    .reverseLimitSwitchEnabled(true);
+
+
+    armMotorConfig2.softLimit
+    .forwardSoftLimit(10)
+    .forwardSoftLimitEnabled(true)
+    .reverseSoftLimit(-10)
+    .reverseSoftLimitEnabled(true);
+
+    armMotorConfig1.idleMode(IdleMode.kBrake);
+    armMotorConfig2.idleMode(IdleMode.kBrake);
+
+    armMotor.configure(armMotorConfig1, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    armMotor2.configure(armMotorConfig2, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+
+
+    encoder.setPosition(0);
+    encoder2.setPosition(0);
 }
 
 // public void climberLimits() {

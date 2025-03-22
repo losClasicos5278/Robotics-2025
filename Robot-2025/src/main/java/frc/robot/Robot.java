@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -29,6 +30,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_robotContainer.resetGyro();
+
+    m_robotContainer.climberConfig();
     configureAButton();
     configureYButton();
     configureXButton();
@@ -49,6 +52,13 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    SmartDashboard.putBoolean("Motor 1 Forward Limit Reached", m_robotContainer.armMotorLimit.isPressed());
+    SmartDashboard.putBoolean("Motor 1 Reverse Limit Reached", m_robotContainer.armMotorLimitReverse.isPressed());
+    SmartDashboard.putBoolean("Motor 2 Forward Limit Reached", m_robotContainer.armMotor2Limit.isPressed());
+    SmartDashboard.putBoolean("Motor 2 Reverse Limit Reached", m_robotContainer.armMotor2LimitReverse.isPressed());
+    SmartDashboard.putNumber("Arm 1 Position", m_robotContainer.encoder.getPosition());
+    SmartDashboard.putNumber("Arm 2 Position", m_robotContainer.encoder2.getPosition());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -136,8 +146,12 @@ private void configureXButton() {
     boolean buttonB = m_robotContainer.m_driverController.getBButton();
     boolean buttonX = m_robotContainer.m_driverController.getXButton();
     boolean buttonLeftBumper = m_robotContainer.m_driverController.getLeftBumperButton();
+    boolean buttonRightBumper = m_robotContainer.m_driverController.getRightBumperButton();
+    double buttonRightTrigger = m_robotContainer.m_driverController.getRightTriggerAxis();
     // m_robotContainer.climberConfig();
 
+    setArmMotorsValue(buttonY, buttonA);
+    setIntakeMotorsValue(buttonRightBumper, buttonLeftBumper, buttonRightTrigger);
     //setArmMotorsValue(buttonY, buttonA);
     setArmPosition();
     setIntakeMotorsValue(buttonB, buttonX, buttonLeftBumper);
@@ -175,8 +189,8 @@ private void configureXButton() {
     }
   }
 
-  public void setIntakeMotorsValue(boolean isOutakeButtonPressed, boolean isIntakeButtonPressed, boolean isLeftBumperPressed) {
-    if (isLeftBumperPressed) {
+  public void setIntakeMotorsValue(boolean isOutakeButtonPressed, boolean isIntakeButtonPressed, double rightTriggerValue) {
+    if (rightTriggerValue > 0.1) {
         // Only activate one motor when the left bumper is held
         m_robotContainer.intakeMotor.set(-0.6);
         m_robotContainer.intakeMotor2.set(0.0);  // Set the second motor to 0 to avoid reversing direction
