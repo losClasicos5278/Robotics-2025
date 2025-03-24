@@ -23,6 +23,7 @@ public class Robot extends TimedRobot {
   private final double armLowPosition = 10;//TODO: find real position
   private final double armIntakePosition = 5;//TODO: find real position
   private final double armClimbPosition = 90;//TODO: find real position
+  private boolean isManualOverride = false;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -156,7 +157,7 @@ private void configureXButton() {
     // setArmMotorsValue(buttonY, buttonA);
     setArmMotorsValue(isUpPressed(), isDownPressed());
     setIntakeMotorsValue(buttonRightBumper, buttonLeftBumper, buttonRightTrigger);
-    // setArmPosition();
+    setArmPosition();
     //setIntakeMotorsValue(buttonB, buttonX, buttonLeftBumper);
   }
 
@@ -172,35 +173,41 @@ private boolean isUpPressed(){
   }
 
   private void setArmPosition() {
-    double realPosition = m_robotContainer.encoder2.getPosition();
-    if(realPosition > goalArmPosition) {
-      m_robotContainer.armMotor.set(0.3);
-      m_robotContainer.armMotor2.set(-0.3);
+    if(!isManualOverride){
 
-    } else if(realPosition  < goalArmPosition) {
-      m_robotContainer.armMotor.set(0.3);
-      m_robotContainer.armMotor2.set(-0.3);
+      double realPosition = m_robotContainer.encoder2.getPosition();
+      if(realPosition > goalArmPosition) {
+        m_robotContainer.armMotor.set(0.3);
+        m_robotContainer.armMotor2.set(-0.3);
 
-    } else {
-      m_robotContainer.armMotor.set(0.01);
-      m_robotContainer.armMotor2.set(-0.01);
+      } else if(realPosition  < goalArmPosition) {
+        m_robotContainer.armMotor.set(0.3);
+        m_robotContainer.armMotor2.set(-0.3);
+
+      } else {
+        m_robotContainer.armMotor.set(0.01);
+        m_robotContainer.armMotor2.set(-0.01);
+      }
+
     }
-
+    
   }
 
 
 
   public void setArmMotorsValue (boolean isUpButtonPressed, boolean isDownButtonPressed) {
-    if (isUpButtonPressed) {
-      m_robotContainer.armMotor.set(0.3);
-      m_robotContainer.armMotor2.set(-0.3);
-    } else if (isDownButtonPressed) {
-      m_robotContainer.armMotor.set(-0.3);
-      m_robotContainer.armMotor2.set(0.3);
-    } else {
-      m_robotContainer.armMotor.set(0.0);
-      m_robotContainer.armMotor2.set(0.0);
-    }
+    if(isManualOverride){
+      if (isUpButtonPressed) {
+        m_robotContainer.armMotor.set(0.3);
+        m_robotContainer.armMotor2.set(-0.3);
+      } else if (isDownButtonPressed) {
+        m_robotContainer.armMotor.set(-0.3);
+        m_robotContainer.armMotor2.set(0.3);
+      } else {
+        m_robotContainer.armMotor.set(0.0);
+        m_robotContainer.armMotor2.set(0.0);
+      }
+     }
   }
 
   public void setIntakeMotorsValue(boolean isOutakeButtonPressed, boolean isIntakeButtonPressed, double rightTriggerValue) {
