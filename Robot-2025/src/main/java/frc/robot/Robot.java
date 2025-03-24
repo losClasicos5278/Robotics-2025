@@ -117,7 +117,10 @@ public class Robot extends TimedRobot {
     new JoystickButton(m_robotContainer.m_driverController, Button.kA.value)
       .whileTrue(
         //new LogCommand ("Joystick Pressed")
-      new InstantCommand(() -> goalArmPosition = armLowPosition));
+      new InstantCommand(() -> {
+        goalArmPosition = armLowPosition;
+        isManualOverride = false;
+        }));
         
   }
 
@@ -125,21 +128,30 @@ private void configureYButton() {
     new JoystickButton(m_robotContainer.m_driverController, Button.kY.value)
       .whileTrue(
         //new LogCommand ("Joystick Pressed")
-      new InstantCommand(() -> goalArmPosition = armClimbPosition));
+      new InstantCommand(() -> {
+        goalArmPosition = armClimbPosition;
+        isManualOverride = false;
+      }));
       
   }
 private void configureXButton() {
     new JoystickButton(m_robotContainer.m_driverController, Button.kX.value)
       .whileTrue(
         //new LogCommand ("Joystick Pressed")
-      new InstantCommand(() -> goalArmPosition = armHighPosition));
+      new InstantCommand(() -> {
+      goalArmPosition = armHighPosition;
+      isManualOverride = false;
+      }));
         
   }
   private void configureBButton() {
     new JoystickButton(m_robotContainer.m_driverController, Button.kB.value)
       .whileTrue(
         //new LogCommand ("Joystick Pressed")
-      new InstantCommand(() -> goalArmPosition = armIntakePosition));
+      new InstantCommand(() -> {
+      goalArmPosition = armIntakePosition;
+      isManualOverride = false;
+      }));
   }
 
   /** This function is called periodically during operator control. */
@@ -155,6 +167,9 @@ private void configureXButton() {
     // m_robotContainer.climberConfig();
     System.out.println(goalArmPosition);
     // setArmMotorsValue(buttonY, buttonA);
+    if(isDownPressed() || isUpPressed()){
+    isManualOverride = true;
+    }
     setArmMotorsValue(isUpPressed(), isDownPressed());
     setIntakeMotorsValue(buttonRightBumper, buttonLeftBumper, buttonRightTrigger);
     setArmPosition();
