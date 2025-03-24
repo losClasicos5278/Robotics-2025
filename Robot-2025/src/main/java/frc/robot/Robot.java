@@ -19,6 +19,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private double goalArmPosition = 0;
+  //To do: Adjust positions to real start. These positions are when the arm is directly up.
   private final double armHighPosition = 50;//TODO: find real position
   private final double armLowPosition = 10;//TODO: find real position
   private final double armIntakePosition = 5;//TODO: find real position
