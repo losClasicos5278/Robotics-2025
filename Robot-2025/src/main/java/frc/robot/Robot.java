@@ -1,9 +1,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -16,10 +19,11 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private double goalArmPosition = 0;
+  //To do: Adjust positions to real start. These positions are when the arm is directly up.
   private final double armHighPosition = 50;//TODO: find real position
   private final double armLowPosition = 10;//TODO: find real position
   private final double armIntakePosition = 5;//TODO: find real position
-  private final double armoClimbPosition = 90;//TODO: find real position
+  private final double armClimbPosition = 90;//TODO: find real position
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -110,7 +114,7 @@ public class Robot extends TimedRobot {
 
 
   private void configureAButton() {
-    new JoystickButton(m_driverController, Button.kA.value)
+    new JoystickButton(m_robotContainer.m_driverController, Button.kA.value)
       .whileTrue(
         //new LogCommand ("Joystick Pressed")
       new InstantCommand(() -> goalArmPosition = armLowPosition));
@@ -118,21 +122,21 @@ public class Robot extends TimedRobot {
   }
 
 private void configureYButton() {
-    new JoystickButton(m_driverController, Button.kY.value)
+    new JoystickButton(m_robotContainer.m_driverController, Button.kY.value)
       .whileTrue(
         //new LogCommand ("Joystick Pressed")
       new InstantCommand(() -> goalArmPosition = armClimbPosition));
       
   }
 private void configureXButton() {
-    new JoystickButton(m_driverController, Button.kY.value)
+    new JoystickButton(m_robotContainer.m_driverController, Button.kX.value)
       .whileTrue(
         //new LogCommand ("Joystick Pressed")
       new InstantCommand(() -> goalArmPosition = armHighPosition));
         
   }
   private void configureBButton() {
-    new JoystickButton(m_driverController, Button.kY.value)
+    new JoystickButton(m_robotContainer.m_driverController, Button.kB.value)
       .whileTrue(
         //new LogCommand ("Joystick Pressed")
       new InstantCommand(() -> goalArmPosition = armIntakePosition));
@@ -149,16 +153,27 @@ private void configureXButton() {
     boolean buttonRightBumper = m_robotContainer.m_driverController.getRightBumperButton();
     double buttonRightTrigger = m_robotContainer.m_driverController.getRightTriggerAxis();
     // m_robotContainer.climberConfig();
-
-    setArmMotorsValue(buttonY, buttonA);
+    System.out.println(goalArmPosition);
+    // setArmMotorsValue(buttonY, buttonA);
+    setArmMotorsValue(isUpPressed(), isDownPressed());
     setIntakeMotorsValue(buttonRightBumper, buttonLeftBumper, buttonRightTrigger);
-    //setArmMotorsValue(buttonY, buttonA);
-    setArmPosition();
-    setIntakeMotorsValue(buttonB, buttonX, buttonLeftBumper);
+    // setArmPosition();
+    //setIntakeMotorsValue(buttonB, buttonX, buttonLeftBumper);
   }
 
+  private boolean isDownPressed(){
+
+    int pov = m_robotContainer.m_driverController.getPOV();
+    return pov == 180; 
+  }
+private boolean isUpPressed(){
+
+    int pov = m_robotContainer.m_driverController.getPOV();
+    return pov == 0; 
+  }
 
   private void setArmPosition() {
+    double realPosition = m_robotContainer.encoder2.getPosition();
     if(realPosition > goalArmPosition) {
       m_robotContainer.armMotor.set(0.3);
       m_robotContainer.armMotor2.set(-0.3);
@@ -168,8 +183,8 @@ private void configureXButton() {
       m_robotContainer.armMotor2.set(-0.3);
 
     } else {
-      m_robotContainer.armMotor.set(0.3);
-      m_robotContainer.armMotor2.set(-0.3);
+      m_robotContainer.armMotor.set(0.01);
+      m_robotContainer.armMotor2.set(-0.01);
     }
 
   }
