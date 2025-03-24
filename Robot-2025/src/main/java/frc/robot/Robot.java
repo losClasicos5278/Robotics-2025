@@ -187,42 +187,18 @@ private boolean isUpPressed(){
     return pov == 0; 
   }
 
-  private void setArmPosition() {
-    if(!isManualOverride){
 
-      double realPosition = m_robotContainer.encoder2.getPosition();
-      if(realPosition > goalArmPosition) {
+  public void setArmMotorsValue (boolean isUpButtonPressed, boolean isDownButtonPressed) {
+      if ((isManualOverride && isUpButtonPressed) || (!isManualOverride && realPosition > goalArmPosition)) {
         m_robotContainer.armMotor.set(0.3);
         m_robotContainer.armMotor2.set(-0.3);
-
-      } else if(realPosition  < goalArmPosition) {
-        m_robotContainer.armMotor.set(0.3);
-        m_robotContainer.armMotor2.set(-0.3);
-
+      } else if ((isManualOverride && isDownButtonPressed) || (!isManualOverride && realPosition  < goalArmPosition)) {
+        m_robotContainer.armMotor.set(-0.3);
+        m_robotContainer.armMotor2.set(0.3);
       } else {
         m_robotContainer.armMotor.set(0.01);
         m_robotContainer.armMotor2.set(-0.01);
       }
-
-    }
-    
-  }
-
-
-
-  public void setArmMotorsValue (boolean isUpButtonPressed, boolean isDownButtonPressed) {
-    if(isManualOverride){
-      if (isUpButtonPressed) {
-        m_robotContainer.armMotor.set(0.3);
-        m_robotContainer.armMotor2.set(-0.3);
-      } else if (isDownButtonPressed) {
-        m_robotContainer.armMotor.set(-0.3);
-        m_robotContainer.armMotor2.set(0.3);
-      } else {
-        m_robotContainer.armMotor.set(0.0);
-        m_robotContainer.armMotor2.set(0.0);
-      }
-     }
   }
 
   public void setIntakeMotorsValue(boolean isOutakeButtonPressed, boolean isIntakeButtonPressed, double rightTriggerValue) {
